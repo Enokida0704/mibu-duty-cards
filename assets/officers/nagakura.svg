@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="永倉新八の隊士絵">
+  <rect width="160" height="160" rx="16" fill="#f7ecd7"/>
+  <circle cx="80" cy="78" r="46" fill="#e0f1e7"/>
+  <path d="M43 126c7-25 22-38 37-38s31 13 37 38z" fill="#1d4a3f"/>
+  <path d="M56 127h48l-6-36H62z" fill="#48aeb4"/>
+  <circle cx="80" cy="78" r="27" fill="#f0c39e"/>
+  <path d="M49 70c9-27 50-30 62-2-19-5-42-5-62 2z" fill="#1a2020"/>
+  <path d="M59 62c10-12 34-13 47 7-20-8-35-4-47-7z" fill="#1a2020"/>
+  <circle cx="69" cy="79" r="3" fill="#111"/>
+  <circle cx="92" cy="79" r="3" fill="#111"/>
+  <path d="M69 94c8 5 15 5 23 0" fill="none" stroke="#6a3b2f" stroke-width="3" stroke-linecap="round"/>
+  <path d="M35 54l86 86" stroke="#8a5a2b" stroke-width="8" stroke-linecap="round"/>
+  <path d="M47 106l20 18M113 106l-20 18" stroke="#fff9e9" stroke-width="5" stroke-linecap="round"/>
+</svg>

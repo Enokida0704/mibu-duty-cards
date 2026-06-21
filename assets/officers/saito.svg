@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="斎藤一の隊士絵">
+  <rect width="160" height="160" rx="16" fill="#f7ecd7"/>
+  <circle cx="80" cy="78" r="46" fill="#d7e6ef"/>
+  <path d="M42 127c5-27 22-42 38-42s33 15 38 42z" fill="#14252d"/>
+  <path d="M58 126h44l-7-36H65z" fill="#225d96"/>
+  <circle cx="80" cy="79" r="25" fill="#efc29e"/>
+  <path d="M49 76c3-31 55-40 64-6-16-9-43-5-64 6z" fill="#111819"/>
+  <path d="M54 72c13-18 44-22 58 1-20-5-38-4-58-1z" fill="#111819"/>
+  <circle cx="70" cy="80" r="3" fill="#111"/>
+  <circle cx="91" cy="80" r="3" fill="#111"/>
+  <path d="M70 94c7 3 13 3 20 0" fill="none" stroke="#6a3b2f" stroke-width="3" stroke-linecap="round"/>
+  <path d="M35 118c26-22 56-36 91-42" stroke="#3d4b55" stroke-width="6" stroke-linecap="round"/>
+  <path d="M45 105l20 19M111 105l-20 19" stroke="#fff9e9" stroke-width="5" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="山南敬助の隊士絵">
+  <rect width="160" height="160" rx="16" fill="#f7ecd7"/>
+  <circle cx="80" cy="78" r="46" fill="#e8ead5"/>
+  <path d="M43 127c6-25 22-39 37-39s31 14 37 39z" fill="#17483d"/>
+  <path d="M58 127h44l-6-36H64z" fill="#48aeb4"/>
+  <circle cx="80" cy="78" r="26" fill="#efc5a2"/>
+  <path d="M51 70c9-26 49-29 59-1-18-5-41-4-59 1z" fill="#202626"/>
+  <circle cx="70" cy="80" r="3" fill="#111"/>
+  <circle cx="91" cy="80" r="3" fill="#111"/>
+  <path d="M69 94c8 4 14 4 22 0" fill="none" stroke="#6a3b2f" stroke-width="3" stroke-linecap="round"/>
+  <rect x="104" y="95" width="34" height="24" rx="8" fill="#fff3d8" stroke="#6d5936" stroke-width="4"/>
+  <path d="M109 107h24" stroke="#6d5936" stroke-width="3" stroke-linecap="round"/>
+  <path d="M48 106l20 18M112 106l-20 18" stroke="#fff9e9" stroke-width="5" stroke-linecap="round"/>
+</svg>
