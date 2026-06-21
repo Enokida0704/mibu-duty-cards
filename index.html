@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#1f2f2a">
+    <meta name="description" content="新選組ファン向けの隊務パズルゲーム">
+    <title>壬生の隊務札</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./assets/maskable-icon.svg">
+  <link rel="stylesheet" href="./styles.css?v=91">
+  </head>
+  <body>
+    <section id="startScreen" class="start-screen" aria-label="開始画面">
+      <div class="start-panel">
+        <div class="start-copy">
+          <p class="eyebrow">新選組 隊務パズル</p>
+          <h1>壬生の隊務札</h1>
+          <p class="start-lead">信用が尽きる前に京都の隊務を収め、できるだけ高い評定を狙う隊務パズルです。</p>
+          <p class="start-sublead">最大100手番まで続きます。隊務を放置すると信用が下がり、信用が0になると一日が終わります。</p>
+        </div>
+
+        <div id="difficultyStep" class="start-step start-step-difficulty">
+          <div class="option-group">
+            <span class="option-label">難易度</span>
+            <div id="difficultyOptions" class="segmented-control" role="group" aria-label="難易度を選ぶ"></div>
+            <p id="difficultyDescription" class="option-description">標準の隊務です。</p>
+          </div>
+
+          <div class="start-actions">
+            <button id="startRandomButton" class="primary-button" type="button">始める</button>
+          </div>
+
+          <a class="shop-banner" href="https://shop.hachifukucorp.com/" target="_blank" rel="noopener noreferrer" aria-label="Hachifuku 公式ショップを新しいタブで開く。新選組ゆかりの食品・グッズを見る">
+            <img class="shop-banner-image" src="./assets/hachifuku-shop-banner.jpg" width="960" height="480" alt="" aria-hidden="true" loading="lazy">
+            <span class="shop-banner-copy" aria-hidden="true">
+              <span class="shop-banner-main">Hachifuku 公式ショップ</span>
+              <span class="shop-banner-sub">新選組ゆかりの食品・グッズを見る</span>
+            </span>
+            <span class="shop-banner-chip">外部サイト</span>
+          </a>
+
+          <section id="startLeaderboardPanel" class="start-leaderboard" aria-label="ランキング" hidden>
+            <div class="start-leaderboard-head">
+              <div>
+                <p>ランキング</p>
+                <strong id="startLeaderboardScope">壬生・隊務</strong>
+              </div>
+            </div>
+            <ol id="startLeaderboardList" class="leaderboard-list start-leaderboard-list"></ol>
+            <p id="startLeaderboardStatus" class="start-leaderboard-status" aria-live="polite"></p>
+          </section>
+        </div>
+
+        <div id="setupStep" class="start-step start-step-setup" hidden>
+          <div class="start-options" aria-label="舞台">
+            <div class="option-group">
+              <span class="option-label">舞台</span>
+              <div id="stageOptions" class="segmented-control" role="group" aria-label="舞台を選ぶ"></div>
+              <p id="stageDescription" class="option-description">壬生の一日</p>
+            </div>
+          </div>
+
+          <div class="officer-draft" aria-label="初期隊士を選ぶ">
+            <div class="draft-head">
+              <span class="option-label">初期隊士</span>
+              <strong id="draftCountText">3人選択</strong>
+            </div>
+            <div id="officerDraft" class="officer-draft-grid"></div>
+            <p id="draftDescription" class="option-description">最初の3人を選んで始めます。</p>
+          </div>
+
+          <div class="start-actions setup-actions">
+            <button id="setupBackButton" class="secondary-button" type="button">戻る</button>
+            <button id="setupGameButton" class="primary-button" type="button">この隊で始める</button>
+          </div>
+        </div>
+
+        <p id="startRecord" class="start-record">記録を読み込み中</p>
+      </div>
+    </section>
+
+    <main id="gameApp" class="app-shell game-app" aria-live="polite" hidden>
+      <section class="guide-band" aria-label="手順">
+        <div class="guide-main">
+          <div class="turn-pill">
+            <span>手番</span>
+            <strong id="turnText">1 / 100</strong>
+          </div>
+          <div class="trust-meter" aria-label="信用">
+            <span>信用</span>
+            <strong id="trustText">20</strong>
+            <div class="trust-bar" aria-hidden="true"><i id="trustFill"></i></div>
+          </div>
+          <span id="stageText" class="stage-pill">壬生</span>
+          <span id="routeText" class="route-pill">山場準備 0/3</span>
+          <span id="goalText" class="goal-pill">ボーナス</span>
+          <strong id="guideText">隊士と隊務を1枚ずつ選択してください</strong>
+          <button id="titleButton" class="top-return-button" type="button" aria-label="途中で終了して開始画面に戻る">終了</button>
+          <button id="helpButton" class="help-button" type="button" aria-haspopup="dialog">?</button>
+        </div>
+        <span id="daySeed" class="day-seed" hidden>本日の隊務</span>
+        <p id="actionFeedback" class="action-feedback"></p>
+        <div id="resultFlash" class="result-flash" hidden>
+          <strong id="flashTitle">隊務完了</strong>
+          <span id="flashText">得点が増えました</span>
+        </div>
+        <div class="guide-tips">
+          <span>隊士温存</span>
+          <span>山場準備</span>
+          <span>連携で得点上昇</span>
+        </div>
+      </section>
+
+      <button id="motionBackdrop" class="motion-backdrop" type="button" hidden aria-label="演出を閉じる"></button>
+      <div id="motionScene" class="motion-scene" role="button" tabindex="0" hidden aria-live="polite" aria-label="隊務完了の演出。クリックで閉じる">
+        <div class="motion-burst" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="motion-card motion-officer">
+          <span>隊士出動</span>
+          <strong id="motionOfficer">隊士</strong>
+        </div>
+        <div class="motion-path" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div class="motion-card motion-task">
+          <span>隊務完了</span>
+          <strong id="motionTask">隊務</strong>
+        </div>
+        <p id="motionScore" class="motion-score">得点上昇</p>
+        <span class="motion-skip">クリックで閉じる</span>
+      </div>
+
+      <section class="status-strip" aria-label="現在の状況">
+        <div class="stat">
+          <span class="stat-label">治安</span>
+          <strong id="securityText">0</strong>
+        </div>
+        <div class="stat">
+          <span class="stat-label">士気</span>
+          <strong id="moraleText">0</strong>
+        </div>
+        <div class="stat">
+          <span class="stat-label">名声</span>
+          <strong id="fameText">0</strong>
+        </div>
+        <div class="command-cell" aria-label="得点を使う采配">
+          <button id="trainButton" class="command-button train-command" type="button">
+            <span>鍛錬</span>
+            <small>士気10</small>
+          </button>
+          <button id="itemButton" class="command-button item-command" type="button">
+            <span>道具</span>
+            <small>名声8</small>
+          </button>
+        </div>
+      </section>
+
+      <section class="play-layout">
+        <aside class="side-panel" aria-label="隊士">
+          <div class="section-heading">
+            <h2>隊士</h2>
+            <p id="selectionHint">隊士を選ぶ</p>
+          </div>
+          <div id="officerHand" class="officer-hand"></div>
+        </aside>
+
+        <div class="board-panel" aria-label="隊務">
+          <div class="section-heading">
+            <h2>隊務</h2>
+            <button id="rerollButton" class="reroll-button" type="button">隊務入替 1</button>
+            <p id="roundFlavor">壬生屯所の朝が明ける。</p>
+          </div>
+          <div id="taskGrid" class="task-grid"></div>
+        </div>
+      </section>
+
+      <section class="situation-band" aria-label="局勢">
+        <span class="record-label">局勢</span>
+        <strong id="eventTitle">平穏</strong>
+        <p id="eventText">大きな変事はない。残り手番を見ながら隊務を選ぶ。</p>
+      </section>
+
+      <section class="record-band" aria-label="記録">
+        <div>
+          <span class="record-label">最高評価</span>
+          <strong id="bestRank">未記録</strong>
+        </div>
+        <div>
+          <span class="record-label">最高項目</span>
+          <strong id="bestScores">未記録</strong>
+        </div>
+        <div>
+          <span class="record-label">遊んだ回数</span>
+          <strong id="playCount">0</strong>
+        </div>
+        <div>
+          <span class="record-label">前回</span>
+          <strong id="lastResult">なし</strong>
+        </div>
+      </section>
+
+      <section class="log-panel" aria-label="隊務録">
+        <div class="section-heading">
+          <h2>隊務録</h2>
+        </div>
+        <ol id="logList" class="log-list"></ol>
+      </section>
+    </main>
+
+    <dialog id="resultDialog" class="result-dialog">
+      <div class="result-content">
+        <p class="eyebrow">本日の評定</p>
+        <h2 id="resultTitle">評定</h2>
+        <p id="resultScore" class="result-score"></p>
+        <p id="resultText" class="result-text"></p>
+        <p id="resultRecord" class="result-record"></p>
+        <div id="resultBreakdown" class="result-breakdown"></div>
+        <form method="dialog" class="result-actions" aria-label="結果画面の操作">
+          <button id="closeResultButton" class="secondary-button" value="close">閉じる</button>
+          <button id="againButton" class="primary-button" value="again">もう一日</button>
+          <button id="shareXButton" class="share-x-button" type="button">Xでポスト</button>
+        </form>
+        <section id="leaderboardPanel" class="leaderboard-panel result-rank-panel" aria-label="今回の順位" hidden>
+          <div class="leaderboard-head">
+            <div>
+              <p class="leaderboard-kicker">同じ舞台・難易度</p>
+              <h3>今回の順位</h3>
+            </div>
+            <span id="leaderboardScope">壬生・隊務</span>
+          </div>
+          <div id="leaderboardOwnRank" class="own-rank-card" hidden></div>
+          <form id="leaderboardForm" class="leaderboard-form" novalidate>
+            <label for="leaderboardName">ニックネーム</label>
+            <input id="leaderboardName" name="leaderboardName" type="text" maxlength="12" autocomplete="nickname" placeholder="12文字まで">
+            <button id="leaderboardSubmit" class="secondary-button" type="submit">投稿</button>
+          </form>
+          <p id="leaderboardStatus" class="leaderboard-status" aria-live="polite"></p>
+        </section>
+        <div id="resultHighlights" class="result-highlights" aria-label="今回の伸びた要因"></div>
+        <div id="resultAdvice" class="result-advice" aria-label="次に狙うこと"></div>
+      </div>
+    </dialog>
+
+    <dialog id="itemDialog" class="item-dialog">
+      <div class="item-content">
+        <div class="help-head">
+          <p class="eyebrow">道具を選ぶ</p>
+          <button id="closeItemDialogButton" class="icon-button" type="button" aria-label="道具選択を閉じる">×</button>
+        </div>
+        <h2>名声を使って一手を変える</h2>
+        <p id="itemDialogTask" class="item-target">先に隊務札を選ぶと、その隊務に道具を使えます。</p>
+        <div id="itemOptions" class="item-options" aria-label="道具一覧"></div>
+      </div>
+    </dialog>
+
+    <dialog id="trainingDialog" class="training-dialog">
+      <div class="training-content">
+        <div class="help-head">
+          <p class="eyebrow">鍛錬する隊士</p>
+          <button id="closeTrainingDialogButton" class="icon-button" type="button" aria-label="鍛錬選択を閉じる">×</button>
+        </div>
+        <h2>士気を使って隊士を鍛える</h2>
+        <p id="trainingDialogText" class="item-target">鍛錬する隊士を選んでください。</p>
+        <div id="trainingOptions" class="training-options" aria-label="鍛錬する隊士一覧"></div>
+      </div>
+    </dialog>
+
+    <dialog id="helpDialog" class="help-dialog">
+      <div class="help-content">
+        <div class="help-head">
+          <p class="eyebrow">遊び方</p>
+          <button id="closeHelpButton" class="icon-button" type="button" aria-label="ヘルプを閉じる">×</button>
+        </div>
+        <h2>高い評定を狙う</h2>
+        <ul>
+          <li>隊士と隊務を1枚ずつ選ぶと実行します。</li>
+          <li>隊士の系統が隊務と合うほど、表示される見込み点が伸びます。</li>
+          <li>隊士ごとに治安・士気・名声の伸びやすさが違います。</li>
+          <li>系統が2つ合うと大成功になり、得点が伸びて他の隊務の期限も少し延びます。</li>
+          <li>上部の「山場準備 次:○○」と同じ系統の隊務を選ぶと準備が1つ進みます。</li>
+          <li>山場札は10手番ごとに出る金色の特別な札です。準備が多いほど山場の加点が伸びます。</li>
+          <li>前の隊務と系統がつながると連携になり、得点が伸びます。</li>
+          <li>士気10で隊士を鍛錬できます。鍛錬済みの隊士はカードの数字が上がり、以後の隊務得点が伸びます。</li>
+          <li>道具は名声を使います。早駕籠、御用提灯、根回し状から選び、選択中の隊務に効果を付けます。</li>
+          <li>隊務を放置すると信用が下がります。信用が0になると終了します。</li>
+          <li>使った隊士だけ交代します。残したい隊士は温存できます。</li>
+        </ul>
+      </div>
+    </dialog>
+
+  <script src="./firebase-config.js?v=91" defer></script>
+  <script src="./firebase-leaderboard.js?v=91" defer></script>
+  <script src="./game.js?v=91" defer></script>
+  </body>
+</html>

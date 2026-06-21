@@ -1,0 +1,87 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /leaderboard_scores/{scoreId} {
+      allow read: if true;
+      allow create: if isValidScore(request.resource.data);
+      allow update, delete: if false;
+    }
+  }
+
+  function isValidScore(data) {
+    return data.keys().hasOnly([
+        'playerName',
+        'total',
+        'rankTitle',
+        'stageId',
+        'stageTitle',
+        'difficultyId',
+        'difficultyTitle',
+        'recordKey',
+        'scores',
+        'trust',
+        'turn',
+        'goalBonus',
+        'difficultyBonus',
+        'stats',
+        'clientVersion',
+        'createdAt'
+      ])
+      && data.playerName is string
+      && data.playerName.size() >= 1
+      && data.playerName.size() <= 12
+      && data.total is int
+      && data.total >= 0
+      && data.total <= 100000
+      && data.rankTitle is string
+      && data.rankTitle.size() <= 40
+      && data.stageId in ['mibu', 'shimabara', 'ikedaya', 'fushimi']
+      && data.stageTitle is string
+      && data.stageTitle.size() <= 40
+      && data.difficultyId in ['easy', 'normal', 'hard']
+      && data.difficultyTitle is string
+      && data.difficultyTitle.size() <= 40
+      && data.recordKey is string
+      && data.recordKey.size() <= 32
+      && data.scores is map
+      && data.scores.keys().hasOnly(['security', 'morale', 'fame'])
+      && data.scores.security is int
+      && data.scores.morale is int
+      && data.scores.fame is int
+      && data.trust is int
+      && data.trust >= 0
+      && data.trust <= 20
+      && data.turn is int
+      && data.turn >= 1
+      && data.turn <= 100
+      && data.goalBonus is int
+      && data.difficultyBonus is int
+      && data.stats is map
+      && data.stats.keys().hasOnly([
+        'maxChain',
+        'chainActions',
+        'fireCount',
+        'bigSuccesses',
+        'routeProgress',
+        'climaxCleared',
+        'penalties',
+        'trustLost',
+        'trainings',
+        'itemsUsed'
+      ])
+      && data.stats.maxChain is int
+      && data.stats.chainActions is int
+      && data.stats.fireCount is int
+      && data.stats.bigSuccesses is int
+      && data.stats.routeProgress is int
+      && data.stats.climaxCleared is bool
+      && data.stats.penalties is int
+      && data.stats.trustLost is int
+      && data.stats.trainings is int
+      && data.stats.itemsUsed is int
+      && data.clientVersion is string
+      && data.clientVersion.size() <= 16
+      && data.createdAt == request.time;
+  }
+}
