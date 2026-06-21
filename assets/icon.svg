@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="壬生の隊務札アイコン">
+  <rect width="512" height="512" fill="#1f3a32"/>
+  <path d="M64 64h384v384H64z" fill="#fffaf0"/>
+  <path d="M92 92h328v328H92z" fill="#8f2f2d"/>
+  <path d="M256 92v328M92 256h328" stroke="#fffaf0" stroke-width="20" opacity=".28"/>
+  <text x="256" y="324" text-anchor="middle" font-family="serif" font-size="190" font-weight="900" fill="#fffaf0">誠</text>
+</svg>
