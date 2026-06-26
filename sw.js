@@ -1,9 +1,10 @@
-const CACHE_NAME = "mibu-duty-cards-v91";
+const CACHE_NAME = "mibu-duty-cards-v92";
 const CACHE_URLS = [
   "./",
   "./index.html",
   "./styles.css",
   "./game.js",
+  "./share-native.js",
   "./firebase-config.js",
   "./firebase-leaderboard.js",
   "./manifest.webmanifest",
