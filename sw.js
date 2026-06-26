@@ -1,4 +1,4 @@
-const CACHE_NAME = "mibu-duty-cards-v92";
+const CACHE_NAME = "mibu-duty-cards-v93";
 const CACHE_URLS = [
   "./",
   "./index.html",
