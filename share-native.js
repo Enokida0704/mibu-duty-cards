@@ -1,12 +1,20 @@
 (function () {
   "use strict";
 
-  function canUseNativeShare(shareData) {
-    if (typeof navigator.share !== "function") return false;
-    if (typeof navigator.canShare === "function" && !navigator.canShare(shareData)) return false;
+  const FALLBACK_DELAY_MS = 1400;
+
+  function shouldUseAppLink() {
     return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
       || window.matchMedia("(pointer: coarse)").matches
       || window.matchMedia("(display-mode: standalone)").matches;
+  }
+
+  function isAndroid() {
+    return /Android/i.test(navigator.userAgent);
+  }
+
+  function isIos() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
   }
 
   function cleanPageUrl() {
@@ -37,22 +45,67 @@
     ].filter(Boolean).join("\n");
   }
 
-  async function handleShare(event) {
-    const shareData = {
-      title: "壬生の隊務札",
-      text: shareText(),
-      url: cleanPageUrl()
+  function postText() {
+    return `${shareText()}\n${cleanPageUrl()}`;
+  }
+
+  function webIntentUrl(text) {
+    const url = new URL("https://x.com/intent/post");
+    url.searchParams.set("text", text);
+    return url.toString();
+  }
+
+  function appUrl(text, fallbackUrl) {
+    const encodedText = encodeURIComponent(text);
+    if (isAndroid()) {
+      return `intent://post?message=${encodedText}#Intent;scheme=twitter;package=com.twitter.android;S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end`;
+    }
+    if (isIos()) {
+      return `twitter://post?message=${encodedText}`;
+    }
+    return `twitter://post?message=${encodedText}`;
+  }
+
+  function openAppThenFallback(appLink, fallbackUrl) {
+    let leftPage = false;
+    const startedAt = Date.now();
+    const cleanup = () => {
+      window.removeEventListener("pagehide", markLeftPage);
+      document.removeEventListener("visibilitychange", markHidden);
     };
-    if (!canUseNativeShare(shareData)) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    try {
-      await navigator.share(shareData);
-    } catch (error) {
-      if (error?.name !== "AbortError") {
-        console.warn("Native share failed", error);
+    const fallbackTimer = window.setTimeout(() => {
+      cleanup();
+      const stillHere = !leftPage && Date.now() - startedAt < FALLBACK_DELAY_MS + 900;
+      if (stillHere) {
+        window.location.href = fallbackUrl;
+      }
+    }, FALLBACK_DELAY_MS);
+
+    function markLeftPage() {
+      leftPage = true;
+      window.clearTimeout(fallbackTimer);
+      cleanup();
+    }
+
+    function markHidden() {
+      if (document.hidden) {
+        markLeftPage();
       }
     }
+
+    window.addEventListener("pagehide", markLeftPage, { once: true });
+    document.addEventListener("visibilitychange", markHidden);
+    window.location.href = appLink;
+  }
+
+  function handleShare(event) {
+    if (!shouldUseAppLink()) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    const text = postText();
+    const fallbackUrl = webIntentUrl(text);
+    openAppThenFallback(appUrl(text, fallbackUrl), fallbackUrl);
   }
 
   document.addEventListener("click", (event) => {
