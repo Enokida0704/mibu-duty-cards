@@ -1,0 +1,226 @@
+.game-app .section-heading,
+.section-heading h2 {
+  text-align: left;
+}
+
+.urgent {
+  background: #f7d7d4;
+  color: var(--red);
+  border: 1px solid rgb(167 40 45 / 30%);
+}
+
+@media (max-width: 820px) {
+  .game-app .section-heading h2 {
+    width: 100%;
+    text-align: left;
+  }
+
+  .game-app .task-place {
+    display: none;
+  }
+
+  .game-app .officer-select {
+    grid-template-areas:
+      "art"
+      "traits"
+      "stats";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    padding: 4px;
+    gap: 3px;
+  }
+
+  .game-app .officer-meta {
+    display: contents;
+  }
+
+  .game-app .officer-name {
+    grid-area: art;
+    z-index: 2;
+    align-self: start;
+    justify-self: center;
+    width: min(64px, 100%);
+    min-height: 1.15em;
+    padding: 2px 4px;
+    border-radius: 5px 5px 0 0;
+    background: rgb(255 249 233 / 88%);
+    color: var(--ink);
+    box-shadow: 0 2px 6px rgb(34 25 12 / 14%);
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .game-app .officer-art {
+    grid-area: art;
+    width: min(100%, 64px);
+  }
+
+  .game-app .officer-bars {
+    grid-area: traits;
+    margin-top: 0;
+    max-height: 30px;
+    overflow: hidden;
+  }
+
+  .game-app .bar-chip {
+    font-size: 0.52rem;
+  }
+
+  .game-app .officer-stats {
+    grid-area: stats;
+    display: flex;
+    justify-content: center;
+    margin-top: 0;
+  }
+
+  .game-app .officer-stats span {
+    flex: 1 1 0;
+    font-size: 0.54rem;
+    white-space: nowrap;
+  }
+
+  .game-app .task-grid {
+    gap: 4px;
+  }
+
+  .game-app .task-card {
+    padding: 6px 4px 24px 8px;
+    gap: 3px;
+  }
+
+  .game-app .card-art {
+    width: min(100%, clamp(90px, 16vh, 132px));
+  }
+
+  .game-app .reward-line {
+    gap: 3px;
+    font-size: 0.58rem;
+  }
+
+  .game-app .reward-line span {
+    padding: 3px 2px;
+    white-space: nowrap;
+  }
+
+  .game-app .penalty-line {
+    position: absolute;
+    left: 9px;
+    right: 4px;
+    bottom: 4px;
+    z-index: 3;
+    min-height: 16px;
+    padding: 2px 3px;
+    border-radius: 4px;
+    background: rgb(255 249 233 / 94%);
+    box-shadow: 0 -2px 8px rgb(34 25 12 / 8%);
+    font-size: 0.58rem;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  .game-app .tag-row {
+    flex-wrap: wrap;
+    gap: 2px 3px;
+    max-width: 100%;
+    min-height: 16px;
+    max-height: 36px;
+    overflow: hidden;
+    align-content: start;
+  }
+
+  .game-app .deadline-now .tag-row {
+    min-height: 34px;
+  }
+
+  .game-app .tag {
+    min-height: 16px;
+    padding: 2px 4px;
+    font-size: 0.5rem;
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  .game-app .status-strip {
+    grid-template-columns: repeat(3, minmax(46px, 0.58fr)) minmax(108px, 1fr);
+    gap: 5px;
+    height: 42px;
+  }
+
+  .game-app .stat {
+    min-height: 0;
+    height: 42px;
+    padding: 5px 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+  }
+
+  .game-app .stat-label {
+    font-size: 0.62rem;
+    line-height: 1;
+  }
+
+  .game-app .stat strong {
+    font-size: clamp(0.98rem, 4.6vw, 1.16rem);
+  }
+
+  .game-app .command-cell {
+    grid-column: auto;
+    height: 42px;
+    gap: 4px;
+  }
+
+  .game-app .command-button {
+    padding: 4px 5px;
+  }
+
+  .game-app .command-button span {
+    font-size: 0.72rem;
+  }
+
+  .game-app .command-button small {
+    margin-left: 2px;
+    font-size: 0.56rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .game-app .status-strip {
+    grid-template-columns: repeat(3, minmax(42px, 0.52fr)) minmax(96px, 1fr);
+    gap: 4px;
+    height: 40px;
+  }
+
+  .game-app .stat {
+    height: 40px;
+    padding: 4px 5px;
+  }
+
+  .game-app .stat-label {
+    font-size: 0.58rem;
+  }
+
+  .game-app .stat strong {
+    font-size: clamp(0.9rem, 4.2vw, 1.06rem);
+  }
+
+  .game-app .command-cell {
+    height: 40px;
+    gap: 3px;
+  }
+
+  .game-app .command-button {
+    padding: 3px 4px;
+  }
+
+  .game-app .command-button span {
+    font-size: 0.66rem;
+  }
+
+  .game-app .command-button small {
+    display: block;
+    margin: 1px 0 0;
+    font-size: 0.52rem;
+  }
+}

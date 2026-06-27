@@ -1,14 +1,17 @@
-const CACHE_NAME = "mibu-duty-cards-v93";
+const CACHE_NAME = "mibu-duty-cards-v100";
 const CACHE_URLS = [
   "./",
   "./index.html",
   "./styles.css",
+  "./final-overrides.css",
   "./game.js",
+  "./display-patch.js",
   "./share-native.js",
   "./firebase-config.js",
   "./firebase-leaderboard.js",
   "./manifest.webmanifest",
   "./assets/hachifuku-shop-banner.jpg",
+  "./assets/ogp-image.png",
   "./assets/cards/category-sprite.png",
   "./assets/officers/okita.svg",
   "./assets/officers/hijikata.svg",
