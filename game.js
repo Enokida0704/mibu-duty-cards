@@ -185,7 +185,7 @@
       text: "難しめ。危険な隊務が増え、信用低下も重くなります。",
       deadlineOffset: 0,
       penaltyScale: 1.42,
-      dangerChance: 0.26,
+      dangerChance: 0.3,
       finalMultiplier: 1.1
     },
     {
