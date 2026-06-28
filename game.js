@@ -173,7 +173,7 @@
     {
       id: "easy",
       title: "見廻り",
-      text: "基本。放置が重なると信用がはっきり削られます。",
+      text: "難易度は低めです。ゲームに慣れてください。",
       deadlineOffset: 0,
       penaltyScale: 1.18,
       dangerChance: 0.18,
@@ -182,7 +182,7 @@
     {
       id: "normal",
       title: "隊務",
-      text: "難しめ。危険な隊務が増え、信用低下も重くなります。",
+      text: "標準の難易度です。アイテムを上手く使ってください。",
       deadlineOffset: 0,
       penaltyScale: 1.42,
       dangerChance: 0.3,
@@ -191,7 +191,7 @@
     {
       id: "hard",
       title: "非常",
-      text: "高得点向け。期限が短く、信用低下がかなり重い隊務です。",
+      text: "高難易度です。高得点目指して頑張ってください。",
       deadlineOffset: -1,
       penaltyScale: 1.65,
       dangerChance: 0.34,
