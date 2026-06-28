@@ -173,20 +173,20 @@
     {
       id: "easy",
       title: "見廻り",
-      text: "練習向け。期限に少し余裕があり、信用低下も控えめです。",
-      deadlineOffset: 1,
-      penaltyScale: 0.65,
-      dangerChance: 0.08,
-      finalMultiplier: 0.85
-    },
-    {
-      id: "normal",
-      title: "隊務",
-      text: "標準。放置が重なると信用がはっきり削られます。",
+      text: "基本。放置が重なると信用がはっきり削られます。",
       deadlineOffset: 0,
       penaltyScale: 1.18,
       dangerChance: 0.18,
       finalMultiplier: 1
+    },
+    {
+      id: "normal",
+      title: "隊務",
+      text: "難しめ。危険な隊務が増え、信用低下も重くなります。",
+      deadlineOffset: 0,
+      penaltyScale: 1.42,
+      dangerChance: 0.26,
+      finalMultiplier: 1.1
     },
     {
       id: "hard",
